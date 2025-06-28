@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Analyzer (Ollama + LLaVA)</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #result { margin-top: 1rem; white-space: pre-wrap; }
+    input[type="file"] { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Local Image Analyzer</h1>
+
+  <form id="uploadForm">
+    <input type="file" id="imageInput" accept="image/*" required />
+    <br><br>
+    <button type="submit">Analyze Image</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const imageInput = document.getElementById("imageInput");
+    const resultDiv = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      resultDiv.textContent = "⏳ Analyzing image...";
+
+      const file = imageInput.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("http://127.0.0.1:8000/analyze", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          resultDiv.textContent = "✅ Description:\n" + data.result;
+        } else {
+          resultDiv.textContent = "❌ Error:\n" + data.error;
+        }
+      } catch (err) {
+        resultDiv.textContent = "❌ Failed to connect to backend.\n" + err;
+      }
+    });
+  </script>
+</body>
+</html>
