@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.env
+.env
+
+# Virtualenv
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if frontend gets JS tools later)
+node_modules/
+
+# Build
+dist/
+build/
+
+# Frontend cache
+*.cache/
